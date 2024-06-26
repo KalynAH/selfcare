@@ -3,4 +3,4 @@ from flask_jwt_extended import jwt_required
 from flask import Blueprint, jsonify, make_response, request
 
 
-pets = Blueprint("pets", __name__)
+selfcares = Blueprint("selfcares", __name__)
