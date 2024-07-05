@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 import LoggedinNavbar from "./LoggedinNavbar";
 import LoggedOutNavbar from "./LoggedOutNavbar";
 
