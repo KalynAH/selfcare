@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { getAllSelfcares, deleteSelfcare } from "../services/selfcare_service";
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 function AllSelfcares() {
   const navigate = useNavigate();
   const [selfcares, setSelfcares] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [loggedInUserSelfcare, setLoggedInUserSelfcare] = useState([]);
+  const { id } = useContext(AuthContext);
 
   useEffect(() => {
     getAllSelfcares()
       .then((data) => {
         setSelfcares(data);
+        grabUserSelfcare(data);
         setLoaded(true);
       })
       .catch((err) => {
@@ -22,6 +26,11 @@ function AllSelfcares() {
         }
       });
   }, [loaded]);
+
+  const grabUserSelfcare = (data) => {
+    const userData = data.filter((routine) => routine.user_id == id);
+    setLoggedInUserSelfcare(userData);
+  };
 
   const handleDelete = (selfcareId) => {
     deleteSelfcare(selfcareId)
@@ -37,7 +46,6 @@ function AllSelfcares() {
   return (
     loaded && (
       <>
-        <p>Welcome: {`${users.first_name}`}</p>
         <h1 className="display-1 mb-3">All Selfcare Routines</h1>
         <table className="table">
           <thead>
@@ -63,6 +71,7 @@ function AllSelfcares() {
                   >
                     view
                   </Link>
+
                   <Link
                     to={`/selfcares/${selfcare.id}/edit`}
                     className="btn btn-sm btn-warning"
@@ -72,7 +81,7 @@ function AllSelfcares() {
                   <button
                     type="button"
                     onClick={() => handleDelete(selfcare.id)}
-                    className="btn btn-sm btn-danger"
+                    className="btn btn-sm btn-danger "
                   >
                     delete
                   </button>
@@ -83,7 +92,7 @@ function AllSelfcares() {
         </table>
 
         <div>
-          <h2 className="display-1 mb-3">My [-Users ]Selfcare Routines</h2>
+          <h2 className="display-1 mb-3">My Selfcare Routines</h2>
           <table className="table">
             <thead>
               <tr>
@@ -91,16 +100,24 @@ function AllSelfcares() {
               </tr>
             </thead>
             <tbody>
-              {selfcares.map((selfcare) => (
+              {loggedInUserSelfcare.map((selfcare) => (
                 <tr key={selfcare.id}>
                   <td className="align-middle d-flex gap-4">
                     <Link to={`/selfcares/${selfcare.id}`}>
                       {selfcare.title}
                     </Link>
-                    <Link className="btn btn-sm btn-warning">done</Link>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(selfcare.id)}
+                      className="btn btn-sm btn-danger"
+                    >
+                      delete
+                    </button>
+
                     <Link
                       to={`/selfcares/${selfcare.id}`}
-                      className="btn btn-sm btn-primary"
+                      className="btn btn-sm btn-primary "
                     >
                       view
                     </Link>
