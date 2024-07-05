@@ -18,9 +18,9 @@ function OneSelfcare() {
         <h1 className="display-1 mb-3">{selfcare.title}</h1>
         <div className="card shadow">
           <div className="card-body">
-            <p className="card-text">{selfcare.title}</p>
-            <p className="card-text2">{selfcare.description} </p>
-            <p className="card-text3">{selfcare.location}</p>
+            <p className="card-text">Title:{selfcare.title}</p>
+            <p className="card-text2">Description:{selfcare.description} </p>
+            <p className="card-text3">Location:{selfcare.location}</p>
           </div>
         </div>
       </>
