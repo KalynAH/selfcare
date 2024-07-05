@@ -2,9 +2,22 @@ import axios from "axios";
 
 const api = axios.create({ baseURL: "/api" });
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 async function getAllSelfcares() {
   try {
-    const response = await api.get("/selfcares");
+    const response = await api.get(`/selfcares`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -22,9 +35,9 @@ async function getOneSelfcare(selfcareId) {
   }
 }
 
-async function createSelfcare(selfcareData) {
+async function createSelfcare(selfcare) {
   try {
-    const response = await api.post("/selfcares/create", selfcareData);
+    const response = await api.post("/selfcares/create", selfcare);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -34,7 +47,7 @@ async function createSelfcare(selfcareData) {
 
 async function editSelfcare(selfcareId, selfcareData) {
   try {
-    const response = await api.post(
+    const response = await api.patch(
       `/selfcares/${selfcareId}/update`,
       selfcareData
     );
