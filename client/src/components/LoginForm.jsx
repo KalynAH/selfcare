@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { loginService } from "../services/auth_service";
 import Alert from "./Alert";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 
 function LoginForm() {
   const { login } = useContext(AuthContext);
@@ -61,7 +61,8 @@ function LoginForm() {
     setSearchParams("");
     loginService(form)
       .then((data) => {
-        login(data.access_token);
+        console.log(data);
+        login(data.access_token, data.user_id);
         navigate("/selfcares");
       })
       .catch((err) => {
