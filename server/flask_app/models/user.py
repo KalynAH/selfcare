@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from re import compile
+from flask_app import bcrypt
 
 EMAIL_REGEX = compile(r"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$")
 
@@ -56,6 +57,17 @@ class User:
 
         return errors
 
+    @staticmethod
+    def generate_hash(password):
+        """Generates a hashed password."""
+        return bcrypt.generate_password_hash(password)
+
+    @staticmethod
+    def check_hash(hashed_password, entered_password):
+        """Checks an entered password against the hashed password."""
+
+        return bcrypt.check_password_hash(hashed_password, entered_password)
+
     @classmethod
     def create(cls, data):
         """Creates a new user."""
@@ -77,6 +89,18 @@ class User:
         data = {"email": email}
         list_of_dicts = connectToMySQL(User._db).query_db(query, data)
 
+        if len(list_of_dicts) == 0:
+            return None
+
+        return list_of_dicts[0]
+
+    @classmethod
+    def find_by_user_id(cls, user_id):
+        """This method finds a user by user id"""
+
+        query = """SELECT * FROM users WHERE id = %(user_id)s;"""
+        data = {"user_id": user_id}
+        list_of_dicts = connectToMySQL(User._db).query_db(query, data)
         if len(list_of_dicts) == 0:
             return None
 
