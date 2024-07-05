@@ -15,10 +15,10 @@ function EditSelfcare() {
 
   useEffect(() => {
     getOneSelfcare(id)
-      .then((data) => {
-        setSelfcare(data);
-        return data;
-      })
+      // .then((data) => {
+      //   setSelfcare(data);
+      //   return data;
+      // })
       .then((data) =>
         setSelfcare((prev) => ({
           ...prev,
