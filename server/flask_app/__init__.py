@@ -11,3 +11,7 @@ app.register_blueprint(auth)
 
 bcrypt.init_app(app)
 jwt.init_app(app)
+
+from secrets import token_hex
+
+print(token_hex())
