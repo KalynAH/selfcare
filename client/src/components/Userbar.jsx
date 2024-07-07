@@ -3,7 +3,8 @@ import LogOutButton from "./LogOutButton";
 import { AuthContext } from "../context/AuthProvider";
 
 function UserBar() {
-  const { email } = useContext(AuthContext);
+  const { email, id } = useContext(AuthContext);
+  console.log(id);
 
   return (
     <header className="py-2 bg-body-secondary">
