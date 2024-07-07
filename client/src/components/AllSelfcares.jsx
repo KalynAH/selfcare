@@ -71,20 +71,23 @@ function AllSelfcares() {
                   >
                     view
                   </Link>
-
-                  <Link
-                    to={`/selfcares/${selfcare.id}/edit`}
-                    className="btn btn-sm btn-warning"
-                  >
-                    edit
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(selfcare.id)}
-                    className="btn btn-sm btn-danger "
-                  >
-                    delete
-                  </button>
+                  {id === selfcare.user_id && (
+                    <>
+                      <Link
+                        to={`/selfcares/${selfcare.id}/edit`}
+                        className="btn btn-sm btn-warning"
+                      >
+                        edit
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(selfcare.id)}
+                        className="btn btn-sm btn-danger "
+                      >
+                        delete
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
